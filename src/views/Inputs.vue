@@ -3,7 +3,7 @@
     <div class="inputs_wrapper">
       <div class="inputs_block">
         <n-input
-          label="Код"
+          label="Code"
         />
         <n-input
           label="Код"

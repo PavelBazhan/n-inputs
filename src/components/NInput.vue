@@ -41,12 +41,12 @@
   $error: #DB4437;
 
   .n-input {
-    height: 36px;
+    height: 35px;
     // background: rgba(0,0,0,0.1);
     position: relative;
     border-bottom: 1px solid $unfocus;
     color: $unfocus;
-    font-family: Roboto, sans-serif;
+    font-family: 'Noto Sans', sans-serif;
     -webkit-font-smoothing: subpixel-antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: color 0.15s;
@@ -71,9 +71,9 @@
       }
       &.required {
         &.focused {
-          left: -5px;
+          // left: -5px;
         }
-        &::before {
+        &::after {
           content: '*'
         }
       }
@@ -83,6 +83,7 @@
       position: absolute;
       background-color: transparent;
       font-size: 16px;
+      font-family: 'Noto Sans', sans-serif;
       // background-color: rgba(0,100,100,0.3);
       border: none;
       padding: 0;
