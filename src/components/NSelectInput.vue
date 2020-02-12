@@ -1,5 +1,5 @@
 <template>
-  <div class="n-input" :class="{filled: value, focus: inputFocused, disable: disable, novalid: novalid}" @click="inputFocus">
+  <div class="n-select-input" :class="{filled: value, focus: inputFocused, disable: disable, novalid: novalid}" @click="inputFocus">
     <div class="n-input__label" :class="{focused: inputFocused || value, required: ('required' in $attrs)}">{{ label }}</div>
     <input
       class="n-input__input"
@@ -7,15 +7,21 @@
       name=""
       :value="value"
       @input="input"
-      @focus="bonk"
-      @blur="knob"
+      @focus="onFocus"
+      @blur="onBlur"
     />
+    <div class="input-icon_wrapper">
+      <div class="input-icon inp_arrow"></div>
+    </div>
+    <div class="n-select-list_wrapper" :class="{ showed: inputFocused }">
+      <n-select-list :items="items" @select="selectItem($event)"></n-select-list>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
-    props: ['value', 'label', 'disable', 'novalid'],
+    props: ['value', 'items', 'label', 'disable', 'novalid'],
     model: {
       prop: 'value',
       event: 'input'
@@ -30,18 +36,29 @@
         this.inputFocused = true;
         console.log('focus');
       },
+      onFocus() {
+        this.inputFocused = true;
+        console.log('open list');
+      },
+      onBlur() {
+        this.inputFocused = false;
+        console.log('close list');
+      },
       knob() {
         this.inputFocused = false;
         console.log('unfocus');
       },
       inputFocus() {
-        console.log(this);
-        // console.log()
         this.$el.getElementsByClassName('n-input__input')[0].focus();
       },
       input(ev) {
         console.log("ev: ", ev.target.value);
         this.$emit('input', ev.target.value);
+      },
+      selectItem(e) {
+        console.log(e);
+        this.$emit('input', e.item);
+        // this.inputFocused = false;
       }
     }
   }
@@ -52,10 +69,11 @@
   $text-secondary: #757575;
   $unfocus: #73A3D2;
   $primary: #1765B2;
+  $secondary: #E0EDF8;
   $disable: #9E9E9E;
   $error: #DB4437;
 
-  .n-input {
+  .n-select-input {
     height: 35px;
     // background: rgba(0,0,0,0.1);
     position: relative;
@@ -95,7 +113,6 @@
     }
 
     input[type="text"] {
-      caret-color: pink;
       position: absolute;
       background-color: transparent;
       font-size: 16px;
@@ -113,17 +130,39 @@
         outline: none;
       }
     }
+
+    .input-icon_wrapper {
+      font-size: 10px;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      height: 22px;
+      // background: rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+    }
+
+    .n-select-list_wrapper {
+      // background: rgba(0,0,0,0.1);
+      position: absolute;
+      top: 100%;
+      width: 100%;
+      display: none;
+      &.showed {
+        display: block;
+      }
+    }
   }
 
-  .n-input.filled {
+  .n-select-input.filled {
     color: $text-secondary;
     border-color: $text-secondary;
   }
-  .n-input.focus {
+  .n-select-input.focus {
     color: $primary;
     border-color: $primary;
   }
-  .n-input.disable {
+  .n-select-input.disable {
     color: $disable;
     border-color: $disable;
     pointer-events: none;
@@ -131,7 +170,7 @@
       color: $disable;
     }
   }
-  .n-input.novalid {
+  .n-select-input.novalid {
     border-color: $error;
     .n-input__label {
       color: $error;

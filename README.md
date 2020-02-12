@@ -1,4 +1,4 @@
-# natulya-inputs
+# n-inputs
 
 ## Project setup
 ```
